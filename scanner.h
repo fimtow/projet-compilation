@@ -1,14 +1,14 @@
 // type booléen
 typedef enum{FALSE, TRUE} boolean;
 // Les mots clés de notre langage
-const char* keyword_token[] = {"if", "else", "for", "while", "number", "text","is","start","boutton","isclicked"};
+const char* keyword_token[] = {"if", "else", "for", "while", "number", "text","is","bouton","with"};
 // Les symboles de notre langage
-// "+", "-", "/", "*", ",", ";", "{", "}", "(", ")", "=", ">", "==", ">=", "<="
+// "+", "-", "/", "*", ",", ";", "{", "}", "(", ")", "=", ">", ".", ">=", "<="
 const char symbole_token[] = {'*', ',', ';', '{', '}', '(', ')'};
 // Le monde des tokens
 typedef enum{
     // keywrods tokens
-    IF_TOKEN, ELSE_TOKEN, FOR_TOKEN, WHILE_TOKEN, NUMBER_TOKEN, TEXT_TOKEN,IS_TOKEN,START_TOKEN,BOUTTON_TOKEN,IS_CLICKED_TOKEN,
+    IF_TOKEN, ELSE_TOKEN, FOR_TOKEN, WHILE_TOKEN, NUMBER_TOKEN, STR_TOKEN, IS_TOKEN, BOUTTON_TOKEN, WITH_TOKEN,
     // Symbole tokens
     PLUS_TOKEN, MINUS_TOKEN, DIV_TOKEN, STAR_TOKEN, COMMA_TOKEN, SEMICOLON_TOKEN,
     OPEN_BRACE_TOKEN, CLOSE_BRACE_TOKEN, OPEN_PARENS_TOKEN, CLOSE_PARENS_TOKEN,
@@ -21,12 +21,12 @@ typedef enum{
 	INDENT_TOKEN,
 	DEINDENT_TOKEN,
 	NEWLINE_TOKEN,
-	FUNCTION_TOKEN,
+	FUNCTION_TOKEN,METHODE_TOKEN,
 	ERROR_TOKEN
 } nameToken;
 
 // supprimez cette table après la vérification des tokens
-const char* tokens[] = {"IF_TOKEN", "ELSE_TOKEN", "FOR_TOKEN", "WHILE_TOKEN", "NUMBER_TOKEN", "TEXT_TOKEN","IS_TOKEN","START_TOKEN","BOUTTON_TOKEN","ISCLICKED_TOKEN",
+const char* tokens[] = {"IF_TOKEN", "ELSE_TOKEN", "FOR_TOKEN", "WHILE_TOKEN", "NUMBER_TOKEN", "STR_TOKEN","IS_TOKEN","BOUTTON_TOKEN","WITH_TOKEN",
                         "PLUS_TOKEN", "MINUS_TOKEN", "DIV_TOKEN", "STAR_TOKEN", "COMMA_TOKEN", "SEMICOLON_TOKEN", "OPEN_BRACE_TOKEN",
                         "CLOSE_BRACE_TOKEN", "OPEN_PARENS_TOKEN", "CLOSE_PARENS_TOKEN", "ASSIGNMENT_TOKEN", "GT_TOKEN", "LT_TOKEN",
                         "OP_EQ_TOKEN", "OP_GE_TOKEN", "OP_LE_TOKEN",
@@ -37,7 +37,7 @@ const char* tokens[] = {"IF_TOKEN", "ELSE_TOKEN", "FOR_TOKEN", "WHILE_TOKEN", "N
 	"DEINDENT_TOKEN",
 	"NEWLINE_TOKEN",
 	"FUNCTION_TOKEN",
-                        "ERROR_TOKEN"};
+                       "METHODE_TOKEN", "ERROR_TOKEN"};
 // structure d'un identificateur
 typedef struct{
     char* name;

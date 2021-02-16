@@ -286,6 +286,12 @@ token getToken(){
          {
            A.name =NEWLINE_TOKEN;
            return A;}
+        else if(character == '.')
+      
+         {
+           A.name =METHODE_TOKEN;
+           return A;}
+           
       // Si on rencontre d'autre caractères non analysés
       else{
            A.name = ERROR_TOKEN;
