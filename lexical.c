@@ -283,9 +283,16 @@ token getToken(){
       
       else if(character == '\n')
       
-         {
-           A.name =NEWLINE_TOKEN;
-           return A;}
+         {character = fgetc(fileSrc);
+           if(character == ' '){ // On a le symbole retur a la ligne et espace 
+                A.name = INDENT_TOKEN;
+                return A;
+           }else{ // On a juste retour a la ligne
+                A.name = NEWLINE_TOKEN;
+                ungetc(character, fileSrc);
+                return A;
+           }
+           }
         else if(character == '.')
       
          {
