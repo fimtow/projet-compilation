@@ -43,7 +43,7 @@ boolean isNumeric(char c){
 int caractereSpecial(char c){
     int i = 0;
     int symbole = (int) STAR_TOKEN; // STAR_TOKEN est le premier symbole simple dans nameToken
-    while(i < symbole_token_size){
+    while(i < 7){
           if(c == symbole_token[i]){
                symbole = symbole + i;
                return symbole;
@@ -96,6 +96,7 @@ numberToken getNumber(char digit, boolean isNegative){
 token getToken(){
       // Lire le caractère suivant
       char character = fgetc(fileSrc);
+     
       token A;
       int i = 0;
       boolean previousIsNumer = isNumber;
@@ -125,7 +126,7 @@ token getToken(){
            i = 0;
             printf("%s ",A.properties.idf.name);
            // vérifier si lo mot obtenue est un mot-clé :
-           while(i < keyword_token_size){
+           while(i < 12){
                 if(strcmp(A.properties.idf.name, keyword_token[i]) == 0){ // Le mot est un mot-clé
                     // Le nom token c'est (nameToken) i
                     A.name = (nameToken) i;
@@ -269,7 +270,13 @@ token getToken(){
            if(character == '='){ // On a le symbole <=
                 A.name = OP_LE_TOKEN;
                 return A;
-           }else{ // On a le symbole <
+           }
+		   else if(character == '>')// On a le symbole <>
+		   {
+		   	 A.name = OP_EQ_TOKEN;
+                return A;
+		   }
+		   else{ // On a le symbole <
                 A.name = LT_TOKEN;
                 ungetc(character, fileSrc);
                 return A;
@@ -298,6 +305,7 @@ token getToken(){
          {
            A.name =METHODE_TOKEN;
            return A;}
+           
            
       // Si on rencontre d'autre caractères non analysés
       else{
