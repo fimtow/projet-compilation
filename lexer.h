@@ -31,42 +31,12 @@ typedef enum
     PF_TOKEN,
     FIN_TOKEN,
     EG_TOKEN,
+    NEWLINE_TOKEN,
+    INDENT_TOKEN,
+    DEDENT_TOKEN,
     FICHIER_VIDE
 } codesLex;
-typedef enum
-{
-    ERR_CAR_INC,
-    ERR_FIC_VIDE,
-    ERR_IDF_LONG,
-    ERR_CON_LONG,
-    ID_ERROR,
-    EG_ERROR,
-    NUM_ERROR,
-    PV_ERROR,
-    CONST_VAR_BEGIN_ERROR,
-    PROGRAM_ERROR,
-    PT_ERROR,
-    VAR_BEGIN_ERROR,
-    BEGIN_ERROR,
-    END_ERROR,
-    AFF_ERROR,
-    IF_ERROR,
-    THEN_ERROR,
-    WHILE_ERROR,
-    DO_ERROR,
-    WRITE_ERROR,
-    PO_ERROR,
-    PF_ERROR,
-    READ_ERROR,
-    COND_ERROR,
-    FACT_ERROR,
-    INST_ERROR,
-    DOU_DEC,
-    NON_VAR,
-    IDF_PRO,
-    NON_DEC,
-    ARG_ERR
-} codesErr;
+
 typedef struct tSymCour
 {
     codesLex code;
@@ -84,4 +54,3 @@ void afficherToken();
 void lireNombre();
 void lireMot();
 void lireCar();
-void erreur(codesErr err);

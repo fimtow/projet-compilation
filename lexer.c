@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include "common.h"
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -7,10 +8,12 @@
 
 int rester = 1;
 int line = 1;
+int lastIndent = 0;
+int currentIndent = 0;
 char carCour;
 tSymCour symCour;
 FILE* fichier;
-char* motsClefs[] = {"program","const","var","begin","end","if","then","while","Do","read","write"};
+char* motsClefs[] = {"is","for","if","elseif","do","else","while","from","to","with","num","str","bool","true","false"};
 
 
 void ouvrirFichier(char* file)
@@ -27,15 +30,20 @@ void lireCaractere()
 void passeSepa()
 {
     int commentaire = 0;
-    while(commentaire || carCour==' ' || carCour=='\n' || carCour=='\t' || carCour=='{')
+    int commentaireOneline = 0;
+    while(commentaire || carCour==' ' || carCour=='/')
     {
-        if(carCour=='{')
+        if(carCour=='/')
         {
             lireCaractere();
-            if(carCour != '*')
+            if(carCour == '/')
+            {
+                commentaireOneline = 1;
+            }
+            else if(carCour != '*')
             {
                 fseek(fichier,-1,SEEK_CUR);
-                carCour = '{';
+                carCour = '/';
                 break;
             }
             commentaire = 1;
@@ -43,12 +51,13 @@ void passeSepa()
         if(carCour=='*' && commentaire)
         {
             lireCaractere();
-            if(carCour == '}')
+            if(carCour == '/')
                 commentaire = 0;
         }
-        if(carCour == '\n')
+        if(commentaireOneline && carCour=='\n')
         {
-            line++;
+            commentaire = 0;
+            commentaireOneline =0;
         }
         lireCaractere();
     }
@@ -56,37 +65,64 @@ void passeSepa()
 
 void symSuiv()
 {
-    passeSepa();
-    if(isalpha(carCour))
+    if(currentIndent != 0)
     {
-        lireMot();
-    }
-    else if(isdigit(carCour))
-    {
-        lireNombre();
+        if(currentIndent < 0)
+        {
+            if(carCour == '\t')
+            {
+                symCour.code = INDENT_TOKEN;
+                lastIndent++;
+                lireCar();
+            }
+            else
+            {
+                currentIndent = 0;
+                symSuiv();
+            }
+        }
+        else
+        {
+            symCour.code = DEDENT_TOKEN;
+            currentIndent--;
+            lastIndent--;
+            lireCar();
+        }
     }
     else
     {
-        switch(carCour)
+        passeSepa();
+        if(isalpha(carCour))
         {
-            case '+' : symCour.code = PLUS_TOKEN; lireCar(); break;
-            case ';' : symCour.code = PV_TOKEN; lireCar(); break;
-            case '.' : symCour.code = PT_TOKEN; lireCar(); break;
-            case '-' : symCour.code = MOINS_TOKEN; lireCar(); break;
-            case '*' : symCour.code = MULT_TOKEN; lireCar(); break;
-            case '/' : symCour.code = DIV_TOKEN; lireCar(); break;
-            case ',' : symCour.code = VIR_TOKEN; lireCar(); break;
-            case ':' : symCour.code = AFF_TOKEN; lireCar(); break;
-            case '<' : symCour.code = INF_TOKEN; lireCar(); break;
-            case '>' : symCour.code = SUP_TOKEN; lireCar(); break;
-            case '(' : symCour.code = PO_TOKEN; lireCar(); break;
-            case ')' : symCour.code = PF_TOKEN; lireCar(); break;
-            case '=' : symCour.code = EG_TOKEN; lireCar(); break;
-            case EOF : rester = 0; lireCar(); break;
-            default : symCour.code = ERREUR_TOKEN; erreur(ERR_CAR_INC);
+            lireMot();
+        }
+        else if(isdigit(carCour))
+        {
+            lireNombre();
+        }
+        else
+        {
+            switch(carCour)
+            {
+                case '+' : symCour.code = PLUS_TOKEN; lireCar(); break;
+                case ';' : symCour.code = PV_TOKEN; lireCar(); break;
+                case '.' : symCour.code = PT_TOKEN; lireCar(); break;
+                case '-' : symCour.code = MOINS_TOKEN; lireCar(); break;
+                case '*' : symCour.code = MULT_TOKEN; lireCar(); break;
+                case '/' : symCour.code = DIV_TOKEN; lireCar(); break;
+                case ',' : symCour.code = VIR_TOKEN; lireCar(); break;
+                case ':' : symCour.code = AFF_TOKEN; lireCar(); break;
+                case '<' : symCour.code = INF_TOKEN; lireCar(); break;
+                case '>' : symCour.code = SUP_TOKEN; lireCar(); break;
+                case '(' : symCour.code = PO_TOKEN; lireCar(); break;
+                case ')' : symCour.code = PF_TOKEN; lireCar(); break;
+                case '=' : symCour.code = EG_TOKEN; lireCar(); break;
+                case '\n' : symCour.code = NEWLINE_TOKEN; lireCar(); indentCalculator(); break;
+                case EOF : rester = 0; lireCar(); break;
+                default : symCour.code = ERREUR_TOKEN; erreur(ERR_CAR_INC);
+            }
         }
     }
-    
 }
 
 void afficherToken()
@@ -198,3 +234,14 @@ void lireCar()
     lireCaractere();
 }
 
+void indentCalculator()
+{
+    currentIndent = lastIndent;
+    while(carCour == '\t' && currentIndent != 0)
+    {
+        currentIndent--;
+        lireCar();
+    }
+    if(currentIndent == 0)
+        currentIndent = -1;
+}
