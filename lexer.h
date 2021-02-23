@@ -1,20 +1,24 @@
 typedef enum
 {
     ID_TOKEN,
-    NUM_TOKEN,
+    NUMBER_TOKEN,
+    STRING_TOKEN,
     ERREUR_TOKEN,
-    PROGRAM_TOKEN,
-    CONST_TOKEN,
-    VAR_TOKEN,
-    BEGIN_TOKEN,
-    END_TOKEN,
+    IS_TOKEN,
+    FOR_TOKEN,
     IF_TOKEN,
-    THEN_TOKEN,
-    WHILE_TOKEN,
+    ELSEIF_TOKEN,
     DO_TOKEN,
-    READ_TOKEN,
-    WRITE_TOKEN,
-    PV_TOKEN,
+    ELSE_TOKEN,
+    WHILE_TOKEN,
+    FROM_TOKEN,
+    TO_TOKEN,
+    WITH_TOKEN,
+    NUM_TOKEN,
+    STR_TOKEN,
+    BOOL_TOKEN,
+    TRUE_TOREN,
+    FALSE_TOKEN,
     PT_TOKEN,
     PLUS_TOKEN,
     MOINS_TOKEN,
@@ -54,3 +58,5 @@ void afficherToken();
 void lireNombre();
 void lireMot();
 void lireCar();
+void indentCalculator();
+void readString();

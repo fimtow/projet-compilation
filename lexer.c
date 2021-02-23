@@ -59,6 +59,10 @@ void passeSepa()
             commentaire = 0;
             commentaireOneline =0;
         }
+        if(carCour == '\n')
+        {
+            line++;
+        }
         lireCaractere();
     }
 }
@@ -105,7 +109,6 @@ void symSuiv()
             switch(carCour)
             {
                 case '+' : symCour.code = PLUS_TOKEN; lireCar(); break;
-                case ';' : symCour.code = PV_TOKEN; lireCar(); break;
                 case '.' : symCour.code = PT_TOKEN; lireCar(); break;
                 case '-' : symCour.code = MOINS_TOKEN; lireCar(); break;
                 case '*' : symCour.code = MULT_TOKEN; lireCar(); break;
@@ -117,7 +120,8 @@ void symSuiv()
                 case '(' : symCour.code = PO_TOKEN; lireCar(); break;
                 case ')' : symCour.code = PF_TOKEN; lireCar(); break;
                 case '=' : symCour.code = EG_TOKEN; lireCar(); break;
-                case '\n' : symCour.code = NEWLINE_TOKEN; lireCar(); indentCalculator(); break;
+                case '"' : symCour.code = STRING_TOKEN; lireCar(); readString(); break;
+                case '\n' : symCour.code = NEWLINE_TOKEN; line++; lireCar(); indentCalculator(); break;
                 case EOF : rester = 0; lireCar(); break;
                 default : symCour.code = ERREUR_TOKEN; erreur(ERR_CAR_INC);
             }
@@ -130,20 +134,22 @@ void afficherToken()
     switch (symCour.code)
     {
         case ID_TOKEN:printf("ID_TOKEN\n");break;
-        case NUM_TOKEN:printf("NUM_TOKEN\n");break;
+        case NUMBER_TOKEN:printf("NUMBER_TOKEN\n");break;
+        case STRING_TOKEN:printf("STRING_TOKEN\n");break;
         case ERREUR_TOKEN:printf("ERREUR_TOKEN\n");break;
-        case PROGRAM_TOKEN:printf("PROGRAM_TOKEN\n");break;
-        case CONST_TOKEN:printf("CONST_TOKEN\n");break;
-        case VAR_TOKEN:printf("VAR_TOKEN\n");break;
-        case BEGIN_TOKEN:printf("BEGIN_TOKEN\n");break;
-        case END_TOKEN:printf("END_TOKEN\n");break;
+        case IS_TOKEN:printf("IS_TOKEN\n");break;
+        case FOR_TOKEN:printf("FOR_TOKEN\n");break;
         case IF_TOKEN:printf("IF_TOKEN\n");break;
-        case THEN_TOKEN:printf("THEN_TOKEN\n");break;
-        case WHILE_TOKEN:printf("WHILE_TOKEN\n");break;
+        case ELSEIF_TOKEN:printf("ELSEIF_TOKEN\n");break;
         case DO_TOKEN:printf("DO_TOKEN\n");break;
-        case READ_TOKEN:printf("READ_TOKEN\n");break;
-        case WRITE_TOKEN:printf("WRITE_TOKEN\n");break;
-        case PV_TOKEN:printf("PV_TOKEN\n");break;
+        case ELSE_TOKEN:printf("ELSE_TOKEN\n");break;
+        case WHILE_TOKEN:printf("WHILE_TOKEN\n");break;
+        case FROM_TOKEN:printf("FROM_TOKEN\n");break;
+        case TO_TOKEN:printf("TO_TOKEN\n");break;
+        case WITH_TOKEN:printf("WITH_TOKEN\n");break;
+        case NUM_TOKEN:printf("NUM_TOKEN\n");break;
+        case STR_TOKEN:printf("STR_TOKEN\n");break;
+        case BOOL_TOKEN:printf("BOOL_TOKEN\n");break;
         case PT_TOKEN:printf("PT_TOKEN\n");break;
         case PLUS_TOKEN:printf("PLUS_TOKEN\n");break;
         case MOINS_TOKEN:printf("MOINS_TOKEN\n");break;
@@ -160,6 +166,9 @@ void afficherToken()
         case PF_TOKEN:printf("PF_TOKEN\n");break;
         case FIN_TOKEN:printf("FIN_TOKEN\n");break;
         case EG_TOKEN:printf("EG_TOKEN\n");break;
+        case NEWLINE_TOKEN:printf("NEWLINE_TOKEN\n");break;
+        case INDENT_TOKEN:printf("INDENT_TOKEN\n");break;
+        case DEDENT_TOKEN:printf("DEDENT_TOKEN\n");break;
     default:
         break;
     }
@@ -194,7 +203,7 @@ void lireMot()
     {
         if(strcasecmp(motsClefs[j], symCour.nom) == 0)
         {
-            symCour.code = j+3;
+            symCour.code = j+4;
             return;
         }
     }
@@ -244,4 +253,13 @@ void indentCalculator()
     }
     if(currentIndent == 0)
         currentIndent = -1;
+}
+
+void readString()
+{
+    while(carCour != '"')
+    {
+        // string value for later
+    }
+    lireCar();
 }

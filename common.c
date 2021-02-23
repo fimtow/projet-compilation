@@ -1,4 +1,7 @@
+#include "common.h"
 #include "lexer.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 char* messagesErr[] = {
     "Erreur lexicale : caractere inconnu",
