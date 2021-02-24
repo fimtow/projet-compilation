@@ -55,8 +55,8 @@
 - STEP -> with EXPR
 - STEP -> ''
 - CONDITION -> EXPR OP EXPR
-- OP -> =
-- OP -> <>
+- OP -> ==
+- OP -> !>
 - OP -> <
 - OP -> >
 - OP -> <=
