@@ -17,7 +17,7 @@ typedef enum
     NUM_TOKEN,
     STR_TOKEN,
     BOOL_TOKEN,
-    TRUE_TOREN,
+    TRUE_TOKEN,
     FALSE_TOKEN,
     PT_TOKEN,
     PLUS_TOKEN,

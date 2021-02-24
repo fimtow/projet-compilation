@@ -4,7 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#define MOTSCLEFS 11
+#define MOTSCLEFS 15
 
 int rester = 1;
 int line = 1;
@@ -150,6 +150,8 @@ void afficherToken()
         case NUM_TOKEN:printf("NUM_TOKEN\n");break;
         case STR_TOKEN:printf("STR_TOKEN\n");break;
         case BOOL_TOKEN:printf("BOOL_TOKEN\n");break;
+        case TRUE_TOKEN:printf("TRUE_TOKEN\n");break;
+        case FALSE_TOKEN:printf("FALSE_TOKEN\n");break;
         case PT_TOKEN:printf("PT_TOKEN\n");break;
         case PLUS_TOKEN:printf("PLUS_TOKEN\n");break;
         case MOINS_TOKEN:printf("MOINS_TOKEN\n");break;
@@ -184,7 +186,7 @@ void lireNombre()
     } while (isdigit(carCour));
     if(i>=11)
         erreur(ERR_CON_LONG);
-    symCour.code = NUM_TOKEN;
+    symCour.code = NUMBER_TOKEN;
 }
 
 void lireMot()
@@ -259,7 +261,7 @@ void readString()
 {
     while(carCour != '"')
     {
-        // string value for later
+        lireCar();
     }
     lireCar();
 }
