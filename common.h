@@ -41,7 +41,27 @@ typedef enum
     EG_ERROR,
     NEWLINE_ERROR,
     INDENT_ERROR,
-    DEDENT_ERROR
+    DEDENT_ERROR,
+    C_ERROR,
+    P_ERROR,
+    ISCOMP_ERROR,
+    T_ERROR,
+    I_ERROR,
+    INST_ERROR,
+    INS_ERROR,
+    K_ERROR,
+    Z_ERROR,
+    X_ERROR,
+    ELSEIFCOMP_ERROR,
+    ELSECOMP_ERROR,
+    STEP_ERROR,
+    OP_ERROR,
+    M_ERROR,
+    MP_ERROR,
+    R_ERROR,
+    MD_ERROR,
+    FACT_ERROR,
+    TYPE_ERROR
 } codesErr;
 
 void erreur(codesErr err);

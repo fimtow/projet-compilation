@@ -4,13 +4,6 @@
 #include "lexer.h"
 #include "common.h"
 
-int main()
-{   
-    PROGRAM();
-    return 1;
-
-}
-
 void Check_Token(codesLex nametoken)
 {	
 	
@@ -82,6 +75,7 @@ void PROCEDURE()
     Check_Token(PF_TOKEN);
     INSTRUCTIONS();
 }
+
 void T()
 {   
     switch(symCour.code)
@@ -91,6 +85,7 @@ void T()
         default : erreur(T_ERROR);
     }
 }
+
 void INSTRUCTIONS()
 {
     Check_Token(NEWLINE_TOKEN);
@@ -99,6 +94,7 @@ void INSTRUCTIONS()
     I();
     Check_Token(DEDENT_TOKEN);
 }
+
 void I()
 {
     if(symCour.code == ID_TOKEN 
@@ -120,6 +116,7 @@ void I()
         error(I_ERROR);
     }
 }
+
 void INSTRUCTION()
 {
     switch(symCour.code)
@@ -147,6 +144,7 @@ void INSTRUCTION()
         default : error(INST_ERROR);
     }
 }
+
 void INST()
 {
     switch(symCour.code)
@@ -162,23 +160,27 @@ void INST()
         default : error(INS_ERROR);    
     }
 }
+
 void OBJ()
 {
     Check_Token(PT_TOKEN);
     Check_Token(ID_TOKEN);
     APPEL();
 }
+
 void AFFEC()
 {
     
     EXPR(AFF_TOKEN);
     EXPR();
 }
+
 void APPEL()
 {
     Check_Token(PO_TOKEN);
     K();
 }
+
 void K()
 {
     switch(symCour.code)
@@ -224,6 +226,7 @@ void X()
         default:   error(X_ERROR);
     }
 }
+
 void IF()
 {
     Check_Token(IF_TOKEN);
@@ -233,6 +236,7 @@ void IF()
     ELSEIF();
     ELSE();
 }
+
 void ELSEIF()
 {   
     switch(symCour.code)
@@ -247,6 +251,7 @@ void ELSEIF()
         default: erreur(ELSEIFCOMP_ERROR);
     }
 }
+
 void ELSE()
 {
     switch(symCour.code)
@@ -266,6 +271,7 @@ void ELSE()
                             
     }
 }
+
 void WHILE()
 {
     Check_Token(WHILE_TOKEN);
@@ -273,6 +279,7 @@ void WHILE()
     Check_Token(DO_TOKEN);
     INSTRUCTIONS();
 }
+
 void FOR()
 {
     Check_Token(FOR_TOKEN);
@@ -285,6 +292,7 @@ void FOR()
     Check_Token(DO_TOKEN);
     INSTRUCTIONS();
 }
+
 void STEP()
 {   
     switch(symCour.code)
@@ -293,16 +301,18 @@ void STEP()
                             EXPR(); 
                             break;
         case DO_TOKEN : break;
-        default:            //Erreur 
+        default:  erreur(STEP_ERROR);
     }
 
 }
+
 void CONDITION()
 {
     EXPR();
     OP();
     EXPR();
 }
+
 void OP()
 {
     switch(symCour.code)
@@ -319,14 +329,16 @@ void OP()
                             break;    
         case DIFF_TOKEN:    Check_Token(DIFF_TOKEN);   
                             break;
-        default:            //Erreur
+        default:  erreur(OP_ERROR);
     }                   
 }
+
 void EXPR()
 {
     TERM();
     M();
 }
+
 void M()
 {   
     if(symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN  )
@@ -338,10 +350,11 @@ void M()
     else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN)
     {}
     else{
-        //erreur;
+        erreur(M_ERROR);
     }
 
 }
+
 void MP()
 {
     switch(symCour.code)
@@ -350,14 +363,16 @@ void MP()
                             break;
         case MOINS_TOKEN:   Check_Token(MOINS_TOKEN);
                             break;
-        default:        //erreur
+        default:  erreur(MP_ERROR);
     }
 }
+
 void TERM()
 {
     FACT();
     R();
 }
+
 void R()
 {
     if(symCour.code == DIV_TOKEN || symCour.code == MULT_TOKEN  )
@@ -369,9 +384,10 @@ void R()
     else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN)
     {}
     else{
-        //Erreur
+        erreur(R_ERROR);
     }
 }
+
 void MD()
 {
     switch(symCour.code )
@@ -380,9 +396,10 @@ void MD()
                             break;
         case MULT_TOKEN:    Check_Token(MULT_TOKEN);
                             break;
-        default:            //Erreur
+        default:  erreur(MD_ERROR);
     }
 }
+
 void FACT()
 {
     switch(symCour.code)
@@ -395,9 +412,10 @@ void FACT()
                         EXPR();
                         Check_Token(PF_TOKEN);
                         break;
-        default:            //Erreur
+        default:  erreur(FACT_ERROR);
     }
 }
+
 void TYPE()
 {
     switch(symCour.code)
@@ -408,6 +426,6 @@ void TYPE()
                             break;
         case BOOL_TOKEN:    Check_Token(BOOL_TOKEN);
                             break;
-        default:    //Erreur
+        default:    erreur(TYPE_ERROR);
     }
 }

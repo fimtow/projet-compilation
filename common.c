@@ -45,7 +45,27 @@ char* messagesErr[] = {
     "Erreur de syntaxe : on expectait un symbole d'egalite",
     "Erreur de syntaxe : on expectait une nouvelle ligne",
     "Erreur de syntaxe : on expectait une indentation",
-    "Erreur de syntaxe : on expectait une deindentation"
+    "Erreur de syntaxe : on expectait une deindentation",
+    "Erreur de syntaxe : on expectait C",
+    "Erreur de syntaxe : on expectait P",
+    "Erreur de syntaxe : on expectait IS",
+    "Erreur de syntaxe : on expectait T",
+    "Erreur de syntaxe : on expectait I",
+    "Erreur de syntaxe : on expectait INST",
+    "Erreur de syntaxe : on expectait INS",
+    "Erreur de syntaxe : on expectait K",
+    "Erreur de syntaxe : on expectait Z",
+    "Erreur de syntaxe : on expectait X",
+    "Erreur de syntaxe : on expectait ELSEIFCOMP",
+    "Erreur de syntaxe : on expectait ELSECOMP",
+    "Erreur de syntaxe : on expectait STEP",
+    "Erreur de syntaxe : on expectait OP",
+    "Erreur de syntaxe : on expectait M",
+    "Erreur de syntaxe : on expectait MP",
+    "Erreur de syntaxe : on expectait R",
+    "Erreur de syntaxe : on expectait MD",
+    "Erreur de syntaxe : on expectait FACT",
+    "Erreur de syntaxe : on expectait TYPE",
 };
 
 void erreur(codesErr err)

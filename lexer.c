@@ -114,12 +114,11 @@ void symSuiv()
                 case '*' : symCour.code = MULT_TOKEN; lireCar(); break;
                 case '/' : symCour.code = DIV_TOKEN; lireCar(); break;
                 case ',' : symCour.code = VIR_TOKEN; lireCar(); break;
-                case ':' : symCour.code = AFF_TOKEN; lireCar(); break;
+                case '=' : symCour.code = AFF_TOKEN; lireCar(); break;
                 case '<' : symCour.code = INF_TOKEN; lireCar(); break;
                 case '>' : symCour.code = SUP_TOKEN; lireCar(); break;
                 case '(' : symCour.code = PO_TOKEN; lireCar(); break;
                 case ')' : symCour.code = PF_TOKEN; lireCar(); break;
-                case '=' : symCour.code = EG_TOKEN; lireCar(); break;
                 case '"' : symCour.code = STRING_TOKEN; lireCar(); readString(); break;
                 case '\n' : symCour.code = NEWLINE_TOKEN; line++; lireCar(); indentCalculator(); break;
                 case EOF : rester = 0; lireCar(); break;
@@ -216,10 +215,10 @@ void lireCar()
 {
     switch (carCour)
     {
-        case ':': 
+        case '=': 
             lireCaractere();
-            if(carCour != '=')
-                symCour.code = ERREUR_TOKEN;
+            if(carCour == '=')
+                symCour.code = EG_TOKEN;
             break;
         case '<': 
             lireCaractere();
