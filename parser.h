@@ -1,3 +1,6 @@
+#ifndef PARSER_H
+#define PARSER_H
+
 #include "lexer.h"
 
 void Check_Token(codesLex nametoken);
@@ -5,7 +8,7 @@ void PROGRAM();
 void C();
 void COMPONENT();
 void P();
-void ISCOMPONENET();
+void ISCOMPONENT();
 void PROCEDURE();
 void T();
 void INSTRUCTIONS();
@@ -35,3 +38,5 @@ void R();
 void MD();
 void FACT();
 void TYPE();
+
+#endif

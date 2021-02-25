@@ -1,3 +1,6 @@
+#ifndef COMMON_H
+#define COMMON_H
+
 typedef enum
 {
     ERR_CAR_INC,
@@ -65,3 +68,5 @@ typedef enum
 } codesErr;
 
 void erreur(codesErr err);
+
+#endif

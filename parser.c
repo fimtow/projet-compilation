@@ -3,6 +3,7 @@
 #include<string.h>
 #include "lexer.h"
 #include "common.h"
+#include "parser.h"
 
 void Check_Token(codesLex nametoken)
 {	
@@ -113,7 +114,7 @@ void I()
     {}
     else
     {
-        error(I_ERROR);
+        erreur(I_ERROR);
     }
 }
 
@@ -141,7 +142,7 @@ void INSTRUCTION()
                             break;
         case BOOL_TOKEN:  DECLARATION();
                             break;
-        default : error(INST_ERROR);
+        default : erreur(INST_ERROR);
     }
 }
 
@@ -157,7 +158,7 @@ void INST()
 
         case PT_TOKEN: OBJ() ;    
                     break;
-        default : error(INS_ERROR);    
+        default : erreur(INS_ERROR);    
     }
 }
 
@@ -191,7 +192,7 @@ void K()
                         Z();
                         Check_Token(PF_TOKEN);
                         break;
-        default : error(K_ERROR);
+        default : erreur(K_ERROR);
     }
 }
 
@@ -204,7 +205,7 @@ void Z()
                         Z();
                         break;
         case PF_TOKEN :   break;
-        default : error(Z_ERROR);
+        default : erreur(Z_ERROR);
     }
 }
 
@@ -223,7 +224,7 @@ void X()
         case AFF_TOKEN:   AFFEC();
                             break;
         case NEWLINE_TOKEN : break;
-        default:   error(X_ERROR);
+        default:   erreur(X_ERROR);
     }
 }
 

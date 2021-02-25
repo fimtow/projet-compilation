@@ -1,6 +1,8 @@
 #include <stdio.h>
-#include "lexer.h"
+#include <stdlib.h>
 #include "parser.h"
+#include "lexer.h"
+
 
 int main()
 {
