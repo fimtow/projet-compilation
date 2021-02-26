@@ -19,7 +19,7 @@ void Check_Token(codesLex nametoken)
 	}
 }
 
-void PORGRAM()
+void PROGRAM()
 {
     COMPONENT();
     C();
@@ -99,11 +99,10 @@ void INSTRUCTIONS()
 void I()
 {
     if(symCour.code == ID_TOKEN 
-        || symCour.code == ID_TOKEN 
         || symCour.code == IF_TOKEN 
         || symCour.code == WHILE_TOKEN 
         || symCour.code == FOR_TOKEN 
-        || symCour.code == NUMBER_TOKEN 
+        || symCour.code == NUM_TOKEN 
         || symCour.code == STR_TOKEN
         || symCour.code == BOOL_TOKEN )
     {
@@ -172,7 +171,7 @@ void OBJ()
 void AFFEC()
 {
     
-    EXPR(AFF_TOKEN);
+    Check_Token(AFF_TOKEN);
     EXPR();
 }
 
@@ -249,6 +248,14 @@ void ELSEIF()
                             ELSEIF();
                             break;
         case ELSE_TOKEN : break;
+        case DEDENT_TOKEN : break;
+        case ID_TOKEN : break;
+        case IF_TOKEN : break;
+        case WHILE_TOKEN : break;
+        case FOR_TOKEN : break;
+        case STR_TOKEN : break;
+        case BOOL_TOKEN : break;
+        case NUM_TOKEN : break;
         default: erreur(ELSEIFCOMP_ERROR);
     }
 }
@@ -348,7 +355,7 @@ void M()
             TERM();
             M();
     }
-    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN)
+    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN)
     {}
     else{
         erreur(M_ERROR);
@@ -382,7 +389,7 @@ void R()
             FACT();
             R();
     }
-    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN)
+    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN)
     {}
     else{
         erreur(R_ERROR);
