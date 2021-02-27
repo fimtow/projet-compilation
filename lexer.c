@@ -90,7 +90,6 @@ void symSuiv()
             symCour.code = DEDENT_TOKEN;
             currentIndent--;
             lastIndent--;
-            lireCar();
         }
     }
     else
