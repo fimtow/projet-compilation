@@ -58,6 +58,7 @@ void passeSepa()
         {
             commentaire = 0;
             commentaireOneline =0;
+            break;
         }
         if(carCour == '\n')
         {
@@ -119,7 +120,17 @@ void symSuiv()
                 case '(' : symCour.code = PO_TOKEN; lireCar(); break;
                 case ')' : symCour.code = PF_TOKEN; lireCar(); break;
                 case '"' : symCour.code = STRING_TOKEN; lireCar(); readString(); break;
-                case '\n' : symCour.code = NEWLINE_TOKEN; line++; lireCar(); indentCalculator(); break;
+                case '\n' : line++;
+                            if(symCour.code == NEWLINE_TOKEN || symCour.code == FICHIER_VIDE)
+                            {
+                                lireCar();
+                                symSuiv();
+                            }
+                            else
+                            {
+                                symCour.code = NEWLINE_TOKEN;  lireCar(); indentCalculator(); 
+                            }
+                            break;
                 case EOF : rester = 0; lireCar(); break;
                 default : symCour.code = ERREUR_TOKEN; erreur(ERR_CAR_INC);
             }
@@ -197,7 +208,7 @@ void lireMot()
         symCour.nom[i] = carCour;
         i++;
         lireCaractere();
-    } while (isalpha(carCour) || isdigit(carCour));
+    } while (isalpha(carCour) || isdigit(carCour) || carCour == '_');
     symCour.nom[i] = '\0';
     for(int j=0;j<MOTSCLEFS;j++)
     {
