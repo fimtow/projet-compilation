@@ -64,7 +64,9 @@ typedef enum
     R_ERROR,
     MD_ERROR,
     FACT_ERROR,
-    TYPE_ERROR
+    TYPE_ERROR,
+    PARAMS_ERROR,
+    PROCEDURES_ERROR
 } codesErr;
 
 void erreur(codesErr err);

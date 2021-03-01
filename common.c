@@ -66,6 +66,8 @@ char* messagesErr[] = {
     "Erreur de syntaxe : on expectait MD",
     "Erreur de syntaxe : on expectait FACT",
     "Erreur de syntaxe : on expectait TYPE",
+    "Erreur de syntaxe : on expectait PARAMS",
+    "Erreur de syntaxe : on expectait PROCEDURES"
 };
 
 void erreur(codesErr err)

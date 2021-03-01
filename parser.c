@@ -40,10 +40,26 @@ void COMPONENT()
     Check_Token(ID_TOKEN);
     ISCOMPONENT();
     Check_Token(NEWLINE_TOKEN);
-    Check_Token(INDENT_TOKEN);
-    PROCEDURE();
-    P();
-    Check_Token(DEDENT_TOKEN);
+    PROCEDURES();
+}
+
+void PROCEDURES()
+{
+    switch (symCour.code)
+    {
+    case INDENT_TOKEN:
+        symSuiv();
+        PROCEDURE();
+        P();
+        Check_Token(DEDENT_TOKEN);
+        break;
+    case ID_TOKEN:
+        break;
+    case FIN_TOKEN:
+        break;
+    default:
+        erreur(PROCEDURES_ERROR);
+    }
 }
 
 void P()
@@ -70,11 +86,28 @@ void PROCEDURE()
 {
     Check_Token(ID_TOKEN);
     Check_Token(PO_TOKEN);
-    TYPE();
-    Check_Token(ID_TOKEN);
-    T();
+    PARAMS();
     Check_Token(PF_TOKEN);
     INSTRUCTIONS();
+}
+
+void PARAMS()
+{
+    if(symCour.code == STR_TOKEN || symCour.code == NUM_TOKEN || symCour.code == BOOL_TOKEN)
+    {
+        TYPE();
+        Check_Token(ID_TOKEN);
+        T();
+    }
+    else if (symCour.code == PF_TOKEN)
+    {
+        return;
+    }
+    else
+    {
+        erreur(PARAMS_ERROR);
+    }
+    
 }
 
 void T()
@@ -187,7 +220,7 @@ void K()
     {
         case PF_TOKEN :   symSuiv();
                         break;
-        case ID_TOKEN:   symSuiv();
+        case ID_TOKEN:  symSuiv();
                         Z();
                         Check_Token(PF_TOKEN);
                         break;
