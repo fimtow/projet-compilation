@@ -27,11 +27,13 @@ void lireCaractere()
     carCour = fgetc(fichier);
 }
 
-void passeSepa()
+
+int passeSepa()
 {
     int commentaire = 0;
     int commentaireOneline = 0;
-    while(commentaire || carCour==' ' || carCour=='/')
+    int newline = 0;
+    while(commentaire || carCour==' ' || carCour=='/' || carCour=='\n')
     {
         if(carCour=='/')
         {
@@ -60,12 +62,20 @@ void passeSepa()
             commentaireOneline =0;
             break;
         }
-        if(carCour == '\n')
+        if(carCour == '\n' && commentaire)
         {
             line++;
         }
+        if(carCour == '\n' && !commentaire && symCour.code != FICHIER_VIDE)
+            newline = 1;
         lireCaractere();
     }
+    if(newline == 1)
+    {
+        line++; symCour.code = NEWLINE_TOKEN; indentCalculator();
+        return 1;
+    }
+    return 0;
 }
 
 void symSuiv()
@@ -95,7 +105,11 @@ void symSuiv()
     }
     else
     {
-        passeSepa();
+        if(passeSepa())
+        {
+            return;
+        }
+            
         if(isalpha(carCour))
         {
             lireMot();
@@ -120,17 +134,7 @@ void symSuiv()
                 case '(' : symCour.code = PO_TOKEN; lireCar(); break;
                 case ')' : symCour.code = PF_TOKEN; lireCar(); break;
                 case '"' : symCour.code = STRING_TOKEN; lireCar(); readString(); break;
-                case '\n' : line++;
-                            if(symCour.code == NEWLINE_TOKEN || symCour.code == FICHIER_VIDE)
-                            {
-                                lireCar();
-                                symSuiv();
-                            }
-                            else
-                            {
-                                symCour.code = NEWLINE_TOKEN;  lireCar(); indentCalculator(); 
-                            }
-                            break;
+                case '\n' : line++; symCour.code = NEWLINE_TOKEN;  lireCar(); indentCalculator(); break;
                 case EOF : rester = 0; lireCar(); break;
                 default : symCour.code = ERREUR_TOKEN; erreur(ERR_CAR_INC);
             }
