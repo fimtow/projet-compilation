@@ -27,11 +27,13 @@ void lireCaractere()
     carCour = fgetc(fichier);
 }
 
-void passeSepa()
+
+int passeSepa()
 {
     int commentaire = 0;
     int commentaireOneline = 0;
-    while(commentaire || carCour==' ' || carCour=='/')
+    int newline = 0;
+    while(commentaire || carCour==' ' || carCour=='/' || carCour=='\n')
     {
         if(carCour=='/')
         {
@@ -58,13 +60,22 @@ void passeSepa()
         {
             commentaire = 0;
             commentaireOneline =0;
+            break;
         }
-        if(carCour == '\n')
+        if(carCour == '\n' && commentaire)
         {
             line++;
         }
+        if(carCour == '\n' && !commentaire && symCour.code != FICHIER_VIDE)
+            newline = 1;
         lireCaractere();
     }
+    if(newline == 1)
+    {
+        line++; symCour.code = NEWLINE_TOKEN; indentCalculator();
+        return 1;
+    }
+    return 0;
 }
 
 void symSuiv()
@@ -90,12 +101,15 @@ void symSuiv()
             symCour.code = DEDENT_TOKEN;
             currentIndent--;
             lastIndent--;
-            lireCar();
         }
     }
     else
     {
-        passeSepa();
+        if(passeSepa())
+        {
+            return;
+        }
+            
         if(isalpha(carCour))
         {
             lireMot();
@@ -114,14 +128,13 @@ void symSuiv()
                 case '*' : symCour.code = MULT_TOKEN; lireCar(); break;
                 case '/' : symCour.code = DIV_TOKEN; lireCar(); break;
                 case ',' : symCour.code = VIR_TOKEN; lireCar(); break;
-                case ':' : symCour.code = AFF_TOKEN; lireCar(); break;
+                case '=' : symCour.code = AFF_TOKEN; lireCar(); break;
                 case '<' : symCour.code = INF_TOKEN; lireCar(); break;
                 case '>' : symCour.code = SUP_TOKEN; lireCar(); break;
                 case '(' : symCour.code = PO_TOKEN; lireCar(); break;
                 case ')' : symCour.code = PF_TOKEN; lireCar(); break;
-                case '=' : symCour.code = EG_TOKEN; lireCar(); break;
                 case '"' : symCour.code = STRING_TOKEN; lireCar(); readString(); break;
-                case '\n' : symCour.code = NEWLINE_TOKEN; line++; lireCar(); indentCalculator(); break;
+                case '\n' : line++; symCour.code = NEWLINE_TOKEN;  lireCar(); indentCalculator(); break;
                 case EOF : rester = 0; lireCar(); break;
                 default : symCour.code = ERREUR_TOKEN; erreur(ERR_CAR_INC);
             }
@@ -199,7 +212,7 @@ void lireMot()
         symCour.nom[i] = carCour;
         i++;
         lireCaractere();
-    } while (isalpha(carCour) || isdigit(carCour));
+    } while (isalpha(carCour) || isdigit(carCour) || carCour == '_');
     symCour.nom[i] = '\0';
     for(int j=0;j<MOTSCLEFS;j++)
     {
@@ -216,10 +229,10 @@ void lireCar()
 {
     switch (carCour)
     {
-        case ':': 
+        case '=': 
             lireCaractere();
-            if(carCour != '=')
-                symCour.code = ERREUR_TOKEN;
+            if(carCour == '=')
+                symCour.code = EG_TOKEN;
             break;
         case '<': 
             lireCaractere();

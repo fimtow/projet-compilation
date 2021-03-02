@@ -1,3 +1,6 @@
+#ifndef LEXER_H
+#define LEXER_H
+
 typedef enum
 {
     ID_TOKEN,
@@ -60,3 +63,5 @@ void lireMot();
 void lireCar();
 void indentCalculator();
 void readString();
+
+#endif
