@@ -13,7 +13,7 @@ int currentIndent = 0;
 char carCour;
 tSymCour symCour;
 FILE* fichier;
-char* motsClefs[] = {"is","for","if","elseif","do","else","while","from","to","with","num","str","bool","true","false"};
+char* motsClefs[] = {"is","for","if","elseif","do","else","while","from","to","with","num","str","bool","true","false","or","and","not"};
 
 
 void ouvrirFichier(char* file)
@@ -184,6 +184,9 @@ void afficherToken()
         case NEWLINE_TOKEN:printf("NEWLINE_TOKEN\n");break;
         case INDENT_TOKEN:printf("INDENT_TOKEN\n");break;
         case DEDENT_TOKEN:printf("DEDENT_TOKEN\n");break;
+        case OR_TOKEN:printf("OR_TOKEN\n");break;
+        case AND_TOKEN:printf("AND_TOKEN\n");break;
+        case NOT_TOKEN:printf("NOT_TOKEN\n");break;
     default:
         break;
     }
@@ -233,6 +236,8 @@ void lireCar()
             lireCaractere();
             if(carCour == '=')
                 symCour.code = EG_TOKEN;
+            else
+                return;
             break;
         case '<': 
             lireCaractere();
@@ -240,18 +245,22 @@ void lireCar()
                 symCour.code = INFEG_TOKEN;
             else if(carCour == '>')
                 symCour.code = DIFF_TOKEN;
+            else
+                return;
             break;
         case '>': 
             lireCaractere();
             if(carCour == '=')
                 symCour.code = SUPEG_TOKEN;
+            else
+                return;
             break;
         case EOF:
             if(symCour.code == FICHIER_VIDE)
                 erreur(ERR_FIC_VIDE);
             else
                 symCour.code = FIN_TOKEN;
-            break;
+            return;
         default:
             break;
     }

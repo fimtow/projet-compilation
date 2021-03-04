@@ -12,21 +12,25 @@
 - Chaque composant a des procédures ou on peut définir comment on va gérer le comportement de ce composant.
 - Il existe des procédures spéciales, comme par exemple la procédure “start” qui est appelée par l’interpréteur une fois le programme démarré. Il existe aussi la procédure “update” qui est appelée par l'interpréteur de façon périodique (idéal pour définir des comportements qui doivent être faitsde façon périodique).
 
-## Grammaire : 
-- PROGRAM -> COMPONENT C
-- C -> COMPONENT C
-- C -> ''
-- COMPONENT -> ID ISCOMPONENT newline indent PROCEDURE P dedent
-- P -> PROCEDURE P
-- P -> ''
-- ISCOMPONENT -> is ID
+- ## Grammaire : 
+- PROGRAM -> COMPONENT COMPONENTS
+- COMPONENTS -> COMPONENT COMPONENTS
+- COMPONENTS -> ''
+- COMPONENT -> ID ISCOMPONENT newline CONTENU
+- CONTENU -> indent PROCEDURE PROCEDURES dedent
+- CONTENU -> ''
+- PROCEDURES -> PROCEDURE PROCEDURES
+- PROCEDURES -> ''
+- ISCOMPONENT -> is ID 
 - ISCOMPONENT -> ''
-- PROCEDURE -> ID ( TYPE ID T ) INSTRUCTIONS
-- T -> , TYPE ID T
-- T -> ''
-- INSTRUCTIONS -> newline indent INSTRUCTION I dedent
-- I -> INSTRUCTION I
-- I -> ''
+- PROCEDURE -> ID ( PARAMS ) INSTRUCTIONS
+- PARAMS -> TYPE ID SUITEPARAMS
+- PARAMS -> ''
+- SUITEPARAMS -> , TYPE ID SUITEPARAMS
+- SUITEPARAMS -> ''
+- INSTRUCTIONS -> newline indent INSTRUCTION SUITEINSTRUCTIONS dedent
+- SUITEINSTRUCTIONS -> INSTRUCTION SUITEINSTRUCTIONS
+- SUITEINSTRUCTIONS -> ''
 - INSTRUCTION -> ID INST newline
 - INSTRUCTION -> IF
 - INSTRUCTION -> WHILE
@@ -36,45 +40,58 @@
 - INST -> APPEL
 - INST -> OBJ
 - OBJ -> . ID APPEL
-- AFFEC -> = EXPR
-- APPEL -> ( K
-- K -> )
-- K -> ID Z )
-- Z -> , ID Z
-- Z -> ''
-- DECLARATION -> TYPE ID X newline
-- X -> AFFEC
-- X -> ''
-- IF -> if CONDITION do INSTRUCTIONS ELSEIF ELSE
-- ELSEIF -> elseif CONDITION do INSTRUCTIONS ELSEIF
+- AFFEC -> = CONTAFFEC
+- CONTAFFEC -> EXPRESSION
+- CONTAFFEC -> string
+- APPEL -> ( VALEURS
+- VALEURS -> )
+- VALEURS -> CONTAFFEC SUITEVALEURS )
+- SUITEVALEURS -> , CONTAFFEC SUITEVALEURS
+- SUITEVALEURS -> ''
+- DECLARATION -> TYPE ID AVECAFFEC newline
+- AVECAFFEC -> AFFEC
+- AVECAFFEC -> ''
+- IF -> if EXPRESSION do INSTRUCTIONS ELSEIF ELSE
+- ELSEIF -> elseif EXPRESSION do INSTRUCTIONS ELSEIF
 - ELSEIF -> ''
 - ELSE -> else INSTRUCTIONS
 - ELSE -> ''
-- WHILE -> while CONDITION do INSTRUCTIONS
-- FOR -> for ID from EXPR to EXPR STEP do INSTRUCTIONS
-- STEP -> with EXPR
-- STEP -> ''
-- CONDITION -> EXPR OP EXPR
+- WHILE -> while EXPRESSION do INSTRUCTIONS
+- FOR -> for ID from EXPRESSION to EXPRESSION PAS do INSTRUCTIONS
+- PAS -> with EXPRESSION
+- PAS -> ''
+- EXPRESSION -> CONJONCTION DISJONCTION
+- DISJONCTION -> or CONJONCTION DISJONCTION
+- DISJONCTION -> ''
+- CONJONCTION -> NEGATION SUITECONJONCTION
+- SUITECONJONCTION -> and NEGATION SUITECONJONCTION
+- SUITECONJONCTION -> ''
+- NEGATION -> not NEGATION
+- NEGATION -> COMPARAISON
+- COMPARAISON -> EXPR COMP
+- COMP -> OP EXPR
+- COMP -> ''
 - OP -> ==
 - OP -> <>
 - OP -> <
 - OP -> >
 - OP -> <=
 - OP -> >=
-- EXPR -> TERM M
-- M -> MP TERM M
-- M -> ''
+- EXPR -> TERM SUITEEXPR
+- SUITEEXPR -> MP TERM SUITEEXPR
+- SUITEEXPR -> ''
 - MP -> +
 - MP -> -
-- TERM -> FACT R
-- R -> MD FACT R
-- R -> ''
+- TERM -> FACT SUITETERM
+- SUITETERM -> MD FACT SUITETERM
+- SUITETERM -> ''
 - MD -> *
 - MD -> /
 - FACT -> ID
-- FACT -> NUM
-- FACT -> ( EXPR )
+- FACT -> number
+- FACT -> true
+- FACT -> false
+- FACT -> ( EXPRESSION )
 - TYPE -> num
 - TYPE -> str
 - TYPE -> bool
-
