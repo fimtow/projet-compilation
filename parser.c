@@ -7,7 +7,6 @@
 
 void Check_Token(codesLex nametoken)
 {	
-	afficherToken();
 	if(symCour.code == nametoken )
 	{	
 		symSuiv();
