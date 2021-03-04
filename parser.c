@@ -22,16 +22,16 @@ void Check_Token(codesLex nametoken)
 void PROGRAM()
 {
     COMPONENT();
-    C();
+    COMPONENTS();
 }
 
-void C()
+void COMPONENTS()
 {   
     switch(symCour.code)
     {   
-        case ID_TOKEN : COMPONENT(); C(); break;
+        case ID_TOKEN : COMPONENT(); COMPONENTS(); break;
         case FIN_TOKEN : break; 
-        default : erreur(C_ERROR);
+        default : erreur(COMPONENTS_ERROR);
     }
 }
 
@@ -40,17 +40,17 @@ void COMPONENT()
     Check_Token(ID_TOKEN);
     ISCOMPONENT();
     Check_Token(NEWLINE_TOKEN);
-    PROCEDURES();
+    CONTENU();
 }
 
-void PROCEDURES()
+void CONTENU()
 {
     switch (symCour.code)
     {
     case INDENT_TOKEN:
-        symSuiv();
+        Check_Token(INDENT_TOKEN);
         PROCEDURE();
-        P();
+        PROCEDURES();
         Check_Token(DEDENT_TOKEN);
         break;
     case ID_TOKEN:
@@ -58,17 +58,17 @@ void PROCEDURES()
     case FIN_TOKEN:
         break;
     default:
-        erreur(PROCEDURES_ERROR);
+        erreur(CONTENU_ERROR);
     }
 }
 
-void P()
+void PROCEDURES()
 {
     switch(symCour.code)
     {
-        case ID_TOKEN :  PROCEDURE(); P(); break;
+        case ID_TOKEN :  PROCEDURE(); PROCEDURES(); break;
         case DEDENT_TOKEN : break;
-        default : erreur(P_ERROR);                 
+        default : erreur(PROCEDURES_ERROR);                 
     }
 }
 
@@ -97,7 +97,7 @@ void PARAMS()
     {
         TYPE();
         Check_Token(ID_TOKEN);
-        T();
+        SUITEPARAMS();
     }
     else if (symCour.code == PF_TOKEN)
     {
@@ -110,13 +110,13 @@ void PARAMS()
     
 }
 
-void T()
+void SUITEPARAMS()
 {   
     switch(symCour.code)
     {   
-        case VIR_TOKEN :  symSuiv(); TYPE(); Check_Token(ID_TOKEN); T(); break;
+        case VIR_TOKEN :  symSuiv(); TYPE(); Check_Token(ID_TOKEN); SUITEPARAMS(); break;
         case PF_TOKEN : break;
-        default : erreur(T_ERROR);
+        default : erreur(SUITEPARAMS_ERROR);
     }
 }
 
@@ -125,11 +125,11 @@ void INSTRUCTIONS()
     Check_Token(NEWLINE_TOKEN);
     Check_Token(INDENT_TOKEN);
     INSTRUCTION();
-    I();
+    SUITEINSTRUCTIONS();
     Check_Token(DEDENT_TOKEN);
 }
 
-void I()
+void SUITEINSTRUCTIONS()
 {
     if(symCour.code == ID_TOKEN 
         || symCour.code == IF_TOKEN 
@@ -140,13 +140,13 @@ void I()
         || symCour.code == BOOL_TOKEN )
     {
         INSTRUCTION();
-        I();
+        SUITEINSTRUCTIONS();
     }
     else if (symCour.code == DEDENT_TOKEN)
     {}
     else
     {
-        erreur(I_ERROR);
+        erreur(SUITEINSTRUCTIONS_ERROR);
     }
 }
 
@@ -174,7 +174,7 @@ void INSTRUCTION()
                             break;
         case BOOL_TOKEN:  DECLARATION();
                             break;
-        default : erreur(INST_ERROR);
+        default : erreur(INSTRUCTION_ERROR);
     }
 }
 
@@ -205,39 +205,47 @@ void AFFEC()
 {
     
     Check_Token(AFF_TOKEN);
-    EXPR();
+    CONTAFFEC();
+}
+
+void CONTAFFEC()
+{
+    if(symCour.code = STRING_TOKEN)
+        Check_Token(STRING_TOKEN);
+    else
+        EXPRESSION();
 }
 
 void APPEL()
 {
     Check_Token(PO_TOKEN);
-    K();
+    VALEURS();
 }
 
-void K()
+void VALEURS()
 {
-    switch(symCour.code)
+    if(symCour.code == PF_TOKEN)
     {
-        case PF_TOKEN :   symSuiv();
-                        break;
-        case ID_TOKEN:  symSuiv();
-                        Z();
-                        Check_Token(PF_TOKEN);
-                        break;
-        default : erreur(K_ERROR);
+        symSuiv();
+    }
+    else
+    {
+        CONTAFFEC();
+        SUITEVALEURS();
+        Check_Token(PF_TOKEN);
     }
 }
 
-void Z()
+void SUITEVALEURS()
 {
     switch(symCour.code)
     {
         case VIR_TOKEN:   symSuiv();
-                        Check_Token(ID_TOKEN);
-                        Z();
+                        CONTAFFEC();
+                        SUITEVALEURS();
                         break;
         case PF_TOKEN :   break;
-        default : erreur(Z_ERROR);
+        default : erreur(SUITEVALEURS_ERROR);
     }
 }
 
@@ -245,25 +253,25 @@ void DECLARATION()
 {
     TYPE();
     Check_Token(ID_TOKEN);
-    X();
+    AVECAFFEC();
     Check_Token(NEWLINE_TOKEN);
 }
 
-void X()
+void AVECAFFEC()
 {
     switch(symCour.code)
     {
         case AFF_TOKEN:   AFFEC();
                             break;
         case NEWLINE_TOKEN : break;
-        default:   erreur(X_ERROR);
+        default:   erreur(AVECAFFEC_ERROR);
     }
 }
 
 void IF()
 {
     Check_Token(IF_TOKEN);
-    CONDITION();
+    EXPRESSION();
     Check_Token(DO_TOKEN);
     INSTRUCTIONS();
     ELSEIF();
@@ -275,7 +283,7 @@ void ELSEIF()
     switch(symCour.code)
     {
         case ELSEIF_TOKEN : symSuiv();
-                            CONDITION();
+                            EXPRESSION();
                             Check_Token(DO_TOKEN);
                             INSTRUCTIONS();
                             ELSEIF();
@@ -316,7 +324,7 @@ void ELSE()
 void WHILE()
 {
     Check_Token(WHILE_TOKEN);
-    CONDITION();
+    EXPRESSION();
     Check_Token(DO_TOKEN);
     INSTRUCTIONS();
 }
@@ -326,15 +334,15 @@ void FOR()
     Check_Token(FOR_TOKEN);
     Check_Token(ID_TOKEN);
     Check_Token(FROM_TOKEN);
-    EXPR();
+    EXPRESSION();
     Check_Token(TO_TOKEN);
-    EXPR();
-    STEP();
+    EXPRESSION();
+    PAS();
     Check_Token(DO_TOKEN);
     INSTRUCTIONS();
 }
 
-void STEP()
+void PAS()
 {   
     switch(symCour.code)
     {
@@ -342,11 +350,21 @@ void STEP()
                             EXPR(); 
                             break;
         case DO_TOKEN : break;
-        default:  erreur(STEP_ERROR);
+        default:  erreur(PAS_ERROR);
     }
 
 }
 
+void EXPRESSION()
+{
+    CONJONCTION();
+    DISJONCTION();
+}
+
+void DISJONCTION()
+{
+    
+}
 void CONDITION()
 {
     EXPR();
