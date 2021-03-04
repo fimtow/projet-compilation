@@ -236,6 +236,8 @@ void lireCar()
             lireCaractere();
             if(carCour == '=')
                 symCour.code = EG_TOKEN;
+            else
+                return;
             break;
         case '<': 
             lireCaractere();
@@ -243,18 +245,22 @@ void lireCar()
                 symCour.code = INFEG_TOKEN;
             else if(carCour == '>')
                 symCour.code = DIFF_TOKEN;
+            else
+                return;
             break;
         case '>': 
             lireCaractere();
             if(carCour == '=')
                 symCour.code = SUPEG_TOKEN;
+            else
+                return;
             break;
         case EOF:
             if(symCour.code == FICHIER_VIDE)
                 erreur(ERR_FIC_VIDE);
             else
                 symCour.code = FIN_TOKEN;
-            break;
+            return;
         default:
             break;
     }
