@@ -14,7 +14,6 @@ void Check_Token(codesLex nametoken)
 	}
 	else
 	{
-        
 		erreur( (codesErr) nametoken + 4);
 	}
 }
@@ -203,7 +202,6 @@ void OBJ()
 
 void AFFEC()
 {
-    
     Check_Token(AFF_TOKEN);
     CONTAFFEC();
 }
@@ -468,7 +466,7 @@ void SUITEEXPR()
             TERM();
             SUITEEXPR();
     }
-    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN)
+    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN || symCour.code == AND_TOKEN || symCour.code == OR_TOKEN || symCour.code == PF_TOKEN || symCour.code == VIR_TOKEN)
     {}
     else{
         erreur(SUITEEXPR_ERROR);
@@ -502,7 +500,7 @@ void SUITETERM()
             FACT();
             SUITETERM();
     }
-    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN)
+    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN || symCour.code == AND_TOKEN || symCour.code == OR_TOKEN || symCour.code == PF_TOKEN || symCour.code == VIR_TOKEN)
     {}
     else{
         erreur(SUITETERM_ERROR);
