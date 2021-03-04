@@ -347,7 +347,7 @@ void PAS()
     switch(symCour.code)
     {
         case WITH_TOKEN :   symSuiv();
-                            EXPR(); 
+                            EXPRESSION(); 
                             break;
         case DO_TOKEN : break;
         default:  erreur(PAS_ERROR);
@@ -363,13 +363,75 @@ void EXPRESSION()
 
 void DISJONCTION()
 {
+    switch (symCour.code)
+    {
+    case OR_TOKEN :
+        Check_Token(OR_TOKEN);
+        CONJONCTION();
+        DISJONCTION();
+        break;
     
+    default:
+        break;
+    }
 }
-void CONDITION()
+
+void CONJONCTION()
+{
+    NEGATION();
+    SUITECONJONCTION();
+}
+
+void SUITECONJONCTION()
+{
+    switch (symCour.code)
+    {
+    case AND_TOKEN:
+        NEGATION();
+        SUITECONJONCTION();
+        break;
+    
+    default:
+        break;
+    }
+}
+
+void NEGATION()
+{
+    switch (symCour.code)
+    {
+    case NOT_TOKEN:
+        NEGATION();
+        break;
+    
+    default:
+        COMPARAISON();
+        break;
+    }
+}
+
+void COMPARAISON()
 {
     EXPR();
-    OP();
-    EXPR();
+    COMP();
+}
+
+void COMP()
+{
+   switch (symCour.code)
+   {
+   case EG_TOKEN:
+   case DIFF_TOKEN:
+   case INF_TOKEN:
+   case INFEG_TOKEN:
+   case SUP_TOKEN:
+   case SUPEG_TOKEN:
+        OP();
+        EXPR();
+        break;
+   default:
+       break;
+   }
 }
 
 void OP()
@@ -395,21 +457,21 @@ void OP()
 void EXPR()
 {
     TERM();
-    M();
+    SUITEEXPR();
 }
 
-void M()
+void SUITEEXPR()
 {   
     if(symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN  )
     {
             MP();
             TERM();
-            M();
+            SUITEEXPR();
     }
     else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN)
     {}
     else{
-        erreur(M_ERROR);
+        erreur(SUITEEXPR_ERROR);
     }
 
 }
@@ -429,21 +491,21 @@ void MP()
 void TERM()
 {
     FACT();
-    R();
+    SUITETERM();
 }
 
-void R()
+void SUITETERM()
 {
     if(symCour.code == DIV_TOKEN || symCour.code == MULT_TOKEN  )
     {
             MD();
             FACT();
-            R();
+            SUITETERM();
     }
     else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN)
     {}
     else{
-        erreur(R_ERROR);
+        erreur(SUITETERM_ERROR);
     }
 }
 
@@ -467,8 +529,12 @@ void FACT()
                             break;
         case NUMBER_TOKEN : Check_Token(NUMBER_TOKEN);
                             break;
+        case TRUE_TOKEN : Check_Token(TRUE_TOKEN);
+                            break;
+        case FALSE_TOKEN : Check_Token(FALSE_TOKEN);
+                            break;
         case PO_TOKEN : symSuiv();
-                        EXPR();
+                        EXPRESSION();
                         Check_Token(PF_TOKEN);
                         break;
         default:  erreur(FACT_ERROR);

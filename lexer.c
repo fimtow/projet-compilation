@@ -13,7 +13,7 @@ int currentIndent = 0;
 char carCour;
 tSymCour symCour;
 FILE* fichier;
-char* motsClefs[] = {"is","for","if","elseif","do","else","while","from","to","with","num","str","bool","true","false"};
+char* motsClefs[] = {"is","for","if","elseif","do","else","while","from","to","with","num","str","bool","true","false","or","and","not"};
 
 
 void ouvrirFichier(char* file)
