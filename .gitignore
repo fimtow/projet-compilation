@@ -2,4 +2,5 @@
 !*.c
 !*.cpp
 !*.h
+!*.txt
 !makefile
