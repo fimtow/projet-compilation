@@ -184,6 +184,9 @@ void afficherToken()
         case NEWLINE_TOKEN:printf("NEWLINE_TOKEN\n");break;
         case INDENT_TOKEN:printf("INDENT_TOKEN\n");break;
         case DEDENT_TOKEN:printf("DEDENT_TOKEN\n");break;
+        case OR_TOKEN:printf("OR_TOKEN\n");break;
+        case AND_TOKEN:printf("AND_TOKEN\n");break;
+        case NOT_TOKEN:printf("NOT_TOKEN\n");break;
     default:
         break;
     }

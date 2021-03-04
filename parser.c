@@ -7,7 +7,7 @@
 
 void Check_Token(codesLex nametoken)
 {	
-	
+	afficherToken();
 	if(symCour.code == nametoken )
 	{	
 		symSuiv();
@@ -75,7 +75,7 @@ void ISCOMPONENT()
 {   
     switch(symCour.code)
     {
-        case IS_TOKEN : symSuiv(); Check_Token(ID_TOKEN); break;
+        case IS_TOKEN : Check_Token(IS_TOKEN); Check_Token(ID_TOKEN); break;
         case NEWLINE_TOKEN : break;
         default : erreur(ISCOMP_ERROR);
     }
@@ -120,7 +120,7 @@ void SUITEPARAMS()
 }
 
 void INSTRUCTIONS()
-{
+{    
     Check_Token(NEWLINE_TOKEN);
     Check_Token(INDENT_TOKEN);
     INSTRUCTION();
@@ -153,7 +153,7 @@ void INSTRUCTION()
 {
     switch(symCour.code)
     {
-        case ID_TOKEN  :    symSuiv();
+        case ID_TOKEN  :    Check_Token(ID_TOKEN);
                             INST();
                             Check_Token(NEWLINE_TOKEN);
                             break;
@@ -208,7 +208,7 @@ void AFFEC()
 
 void CONTAFFEC()
 {
-    if(symCour.code = STRING_TOKEN)
+    if(symCour.code == STRING_TOKEN)
         Check_Token(STRING_TOKEN);
     else
         EXPRESSION();
@@ -224,7 +224,7 @@ void VALEURS()
 {
     if(symCour.code == PF_TOKEN)
     {
-        symSuiv();
+        Check_Token(PF_TOKEN);
     }
     else
     {
@@ -238,7 +238,7 @@ void SUITEVALEURS()
 {
     switch(symCour.code)
     {
-        case VIR_TOKEN:   symSuiv();
+        case VIR_TOKEN:   Check_Token(VIR_TOKEN);
                         CONTAFFEC();
                         SUITEVALEURS();
                         break;
@@ -280,7 +280,7 @@ void ELSEIF()
 {   
     switch(symCour.code)
     {
-        case ELSEIF_TOKEN : symSuiv();
+        case ELSEIF_TOKEN : Check_Token(ELSEIF_TOKEN);
                             EXPRESSION();
                             Check_Token(DO_TOKEN);
                             INSTRUCTIONS();
@@ -303,7 +303,7 @@ void ELSE()
 {
     switch(symCour.code)
     {
-        case ELSE_TOKEN :   symSuiv();
+        case ELSE_TOKEN :   Check_Token(ELSE_TOKEN);
                             INSTRUCTIONS();
                             break;
         case DEDENT_TOKEN: break;
@@ -344,7 +344,7 @@ void PAS()
 {   
     switch(symCour.code)
     {
-        case WITH_TOKEN :   symSuiv();
+        case WITH_TOKEN :   Check_Token(WITH_TOKEN);
                             EXPRESSION(); 
                             break;
         case DO_TOKEN : break;
@@ -436,7 +436,7 @@ void OP()
 {
     switch(symCour.code)
     {
-        case EG_TOKEN :  symSuiv();
+        case EG_TOKEN :  Check_Token(EG_TOKEN);
                         break;
         case INF_TOKEN :     Check_Token(INF_TOKEN);
                             break;
@@ -531,7 +531,7 @@ void FACT()
                             break;
         case FALSE_TOKEN : Check_Token(FALSE_TOKEN);
                             break;
-        case PO_TOKEN : symSuiv();
+        case PO_TOKEN : Check_Token(PO_TOKEN);
                         EXPRESSION();
                         Check_Token(PF_TOKEN);
                         break;
