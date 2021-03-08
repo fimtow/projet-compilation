@@ -1,8 +1,11 @@
 titre is test
-    start()
-        int num = 4
-        int num2 = 5
-        if num == num2 do
-            print("test")
-        else
-            print("test 2")
+	start()
+		num number = 4
+		num num2 = 5
+		if number == num2 do
+			print("test")
+		else
+			print("test 2")
+	boucle()
+		while true do
+			print("infinity")
