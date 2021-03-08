@@ -1,4 +1,31 @@
 # Projet Compilation
+## Comment compiler le programme :
+
+- Pour compiler juste l'analyseur lexical :
+
+```bash
+make lexer
+```
+
+- Pour compiler l'analyseur syntaxique (lexical inclu) :
+
+```bash
+make parser
+```
+
+## Comment exécuter le programme :
+
+- Pour exécuter l'analyseur lexical :
+
+```bash
+./lexer nomfichier
+```
+
+- Pour exécuter l'analyseur syntaxique :
+
+```bash
+./parser nomfichier
+```
 
 ## Ce langage de programmation est destiné à deux cas d'utilisation :
 
@@ -12,7 +39,8 @@
 - Chaque composant a des procédures ou on peut définir comment on va gérer le comportement de ce composant.
 - Il existe des procédures spéciales, comme par exemple la procédure “start” qui est appelée par l’interpréteur une fois le programme démarré. Il existe aussi la procédure “update” qui est appelée par l'interpréteur de façon périodique (idéal pour définir des comportements qui doivent être faitsde façon périodique).
 
-- ## Grammaire : 
+## Grammaire : 
+
 - PROGRAM -> COMPONENT COMPONENTS
 - COMPONENTS -> COMPONENT COMPONENTS
 - COMPONENTS -> ''
