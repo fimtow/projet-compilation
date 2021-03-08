@@ -1,10 +1,10 @@
 boutondroit is bouton
 	start(str test)
-		str text = 55
+		str text = "text"
 		num number = 5124
-		bool boolean = 1
-		bool anotherboolean = 0
-		while boolean == 5 do
+		bool boolean = true
+		bool anotherboolean = false
+		while boolean == false do
 			for i from 0 to 5 with 2 do
 				lol()
 	iscliqued(str test)

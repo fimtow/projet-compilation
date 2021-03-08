@@ -16,10 +16,13 @@ FILE* fichier;
 char* motsClefs[] = {"is","for","if","elseif","do","else","while","from","to","with","num","str","bool","true","false","or","and","not"};
 
 
-void ouvrirFichier(char* file)
+int ouvrirFichier(char* file)
 {
     fichier = fopen(file,"r");
+    if(fichier == NULL)
+        return 0;
     symCour.code = FICHIER_VIDE;
+    return 1;
 }
 
 void lireCaractere()

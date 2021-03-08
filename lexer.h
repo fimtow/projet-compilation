@@ -57,7 +57,7 @@ extern char carCour;
 extern tSymCour symCour;
 extern int rester;
 extern int line;
-void ouvrirFichier(char* file);
+int ouvrirFichier(char* file);
 void lireCaractere();
 void symSuiv();
 void afficherToken();
