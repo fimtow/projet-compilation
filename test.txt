@@ -1,0 +1,22 @@
+boutondroit is bouton
+	start(str test)
+		str text = "text"
+		num number = 5124
+		bool boolean = true
+		bool anotherboolean = false
+		while boolean == false do
+			for i from 0 to 5 with 2 do
+				lol()
+	iscliqued(str test)
+		cercle.bougerdroit()
+boutongauche is bouton
+	iscliqued(str test)
+		cercle.bougergauche()
+cercle is CERCLE
+	start(str test)
+		goto(lol,lol)
+		wait(lol)
+		if collsion == 1 do
+			goto(lol,lol)
+	slide(str test)
+		x = x + 1

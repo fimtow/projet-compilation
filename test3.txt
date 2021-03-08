@@ -1,0 +1,11 @@
+titre is test
+	start()
+		num number = 4
+		num num2 = 5
+		if number == num2 do
+			print("test")
+		else
+			print("test 2")
+	boucle()
+		while true do
+			print("infinity")

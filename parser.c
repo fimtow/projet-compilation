@@ -7,7 +7,7 @@
 
 void Check_Token(codesLex nametoken)
 {	
-	if(symCour.code == nametoken )
+	if(symCour.code == nametoken || ((nametoken == NEWLINE_TOKEN || nametoken == DEDENT_TOKEN) && symCour.code == FIN_TOKEN))
 	{	
 		symSuiv();
 	}
@@ -66,6 +66,7 @@ void PROCEDURES()
     {
         case ID_TOKEN :  PROCEDURE(); PROCEDURES(); break;
         case DEDENT_TOKEN : break;
+        case FIN_TOKEN : break;
         default : erreur(PROCEDURES_ERROR);                 
     }
 }
@@ -76,6 +77,7 @@ void ISCOMPONENT()
     {
         case IS_TOKEN : Check_Token(IS_TOKEN); Check_Token(ID_TOKEN); break;
         case NEWLINE_TOKEN : break;
+        case FIN_TOKEN : break;
         default : erreur(ISCOMP_ERROR);
     }
 }
@@ -140,7 +142,7 @@ void SUITEINSTRUCTIONS()
         INSTRUCTION();
         SUITEINSTRUCTIONS();
     }
-    else if (symCour.code == DEDENT_TOKEN)
+    else if (symCour.code == DEDENT_TOKEN || symCour.code == FIN_TOKEN)
     {}
     else
     {
@@ -261,6 +263,7 @@ void AVECAFFEC()
         case AFF_TOKEN:   AFFEC();
                             break;
         case NEWLINE_TOKEN : break;
+        case FIN_TOKEN : break;
         default:   erreur(AVECAFFEC_ERROR);
     }
 }
@@ -287,6 +290,7 @@ void ELSEIF()
                             break;
         case ELSE_TOKEN : break;
         case DEDENT_TOKEN : break;
+        case FIN_TOKEN: break;
         case ID_TOKEN : break;
         case IF_TOKEN : break;
         case WHILE_TOKEN : break;
@@ -306,6 +310,7 @@ void ELSE()
                             INSTRUCTIONS();
                             break;
         case DEDENT_TOKEN: break;
+        case FIN_TOKEN: break;
         case ID_TOKEN: break;
         case IF_TOKEN: break;
         case WHILE_TOKEN: break;
@@ -465,7 +470,7 @@ void SUITEEXPR()
             TERM();
             SUITEEXPR();
     }
-    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN || symCour.code == AND_TOKEN || symCour.code == OR_TOKEN || symCour.code == PF_TOKEN || symCour.code == VIR_TOKEN)
+    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN || symCour.code == AND_TOKEN || symCour.code == OR_TOKEN || symCour.code == PF_TOKEN || symCour.code == VIR_TOKEN || symCour.code == FIN_TOKEN)
     {}
     else{
         erreur(SUITEEXPR_ERROR);
@@ -499,7 +504,7 @@ void SUITETERM()
             FACT();
             SUITETERM();
     }
-    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN || symCour.code == AND_TOKEN || symCour.code == OR_TOKEN || symCour.code == PF_TOKEN || symCour.code == VIR_TOKEN)
+    else if (symCour.code == EG_TOKEN || symCour.code == DIFF_TOKEN || symCour.code == SUP_TOKEN || symCour.code == INF_TOKEN || symCour.code == SUPEG_TOKEN || symCour.code == INFEG_TOKEN || symCour.code == WITH_TOKEN || symCour.code == DO_TOKEN || symCour.code == PLUS_TOKEN || symCour.code == MOINS_TOKEN ||  symCour.code == NEWLINE_TOKEN || symCour.code == TO_TOKEN || symCour.code == AND_TOKEN || symCour.code == OR_TOKEN || symCour.code == PF_TOKEN || symCour.code == VIR_TOKEN || symCour.code == FIN_TOKEN)
     {}
     else{
         erreur(SUITETERM_ERROR);
