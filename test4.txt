@@ -1,0 +1,24 @@
+boutondroit is bouton
+	start()
+		x=10
+		y=20
+	iscliqued()
+		cercle.bougerdroit()
+boutongauche is bouton
+	start()
+		x=5
+		y=20
+	iscliqued()
+		cercle.bougergauche()
+cercle is CERCLE
+	start()
+		x=1
+		y=5
+		bool boolean = false
+		while boolean == false do
+			for i from 0 to 5 with 2 do
+				if x == 5 do
+					boolean=true
+				else
+					x=x+1
+				update()
